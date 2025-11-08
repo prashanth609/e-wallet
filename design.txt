@@ -1,0 +1,122 @@
+
+Users	user_id (PK), full_name, email_id, mobile_number, password, address, kyc_status, created_by (FK), created_on, active_flag
+Wallets	wallet_id (PK), user_id (FK), currency, balance, created_by (FK), created_on, active_flag
+Merchants	merchant_id (PK), merchant_name, currency, created_by (FK), created_on, active_flag
+Payments	transaction_id (PK), transaction_time, wallet_id (FK), amount, created_by (FK), created_on, active_flag
+Orders	order_id (PK), product_name, price, currency, ordered_on, active_flag
+Audit Trail	event_id (PK), event_name, event_time, description, created_by (FK), created_on, active_flag
+Notifications	notification_id (PK), merchant_id (FK), user_id (FK), event_name, event_time
+
+
+
+
+
+
+
+Java ,Spring Boot, Microservice ,MySQL
+
+Services :
+Wallet
+Order
+Payment
+Notification
+
+
+
+Wallet Service
+GET  /get/{walletId}
+PUT /updateBalance/{walletId}
+POST /deposit
+
+
+Order Service
+POST /order
+Request Body{
+{
+userId,
+productName,
+price,
+currency
+}
+
+
+Payment Service
+POST /payments
+
+{
+order_id,
+walletId,
+user_id,
+amount_paid,
+}
+
+Notification Service
+notificationId,
+merchant_id,
+user_id,
+eventName,
+eventTime
+
+
+
+Database :
+users,
+wallets,
+merchants,
+transactions,
+audit_trail,
+notifications,
+orders
+
+
+
+
+users
+user_id    full_name email_id mobile_number password(encrypted) address   kyc_status   created_by(user_id)    created_on   active_flag  
+
+
+wallets
+wallet_id   user_id(FK)   currency  balance   created_by(user_id)  created_on   active_flag  
+
+
+merchants
+merchant_id(PK)  merchant_name currency  created_by(user_id)  created_on   active_flag 
+
+payments
+transactions_id  transaction_time  wallet_id  amount created_by(user_id)  created_on   active_flag 
+
+
+orders
+orderId(PK) product_name  price  currency  ordered_on(DATE_TIME)  active_flag 
+
+
+audit_trail
+event_id(PK)  event_name event_time (DATE_TIME) description  created_by(user_id)  created_on   active_flag  
+
+
+
+
+Notifications Service
+Kafka - to send payment successful or failure messages
+
+
+
+Design Patterns:
+Circuit Breaker  between each service
+
+
+Caching can be applied at wallet balance fetching
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
